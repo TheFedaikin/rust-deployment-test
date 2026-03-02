@@ -61,6 +61,7 @@ jobs:
       - name: Build and push
         uses: docker/bake-action@v6
         with:
+          source: .
           targets: server-prebuilt
           set: |
             server-prebuilt.args.TAG=${{ github.sha }}
