@@ -1,0 +1,7 @@
+target/
+.git/
+.env
+*.db
+node_modules/
+.github/
+*.md

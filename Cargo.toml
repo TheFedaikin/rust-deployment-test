@@ -1,0 +1,47 @@
+[package]
+name = "axum-docker-deployment"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = { version = "0.8", features = ["multipart", "ws"] }
+tower-http = { version = "0.6", features = ["fs", "cors", "trace"] }
+tokio = { version = "1", features = ["full"] }
+tokio-stream = "0.1"
+futures = "0.3"
+futures-util = "0.3"
+sea-orm = { version = "2.0.0-rc", features = [
+    "macros",
+    "runtime-tokio-native-tls",
+    "sqlx-sqlite",
+    "sqlx-postgres",
+    "schema-sync",
+    "runtime-tokio",
+    "debug-print",
+    "entity-registry",
+    "with-json",
+    "with-uuid",
+    "with-chrono",
+] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "std", "fmt"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+reqwest = { version = "0.12", features = ["json", "multipart"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+anyhow = "1"
+thiserror = "2"
+clap = { version = "4", features = ["derive"] }
+image = "0.25"
+ollama-rs = "0.3"
+schemars = "1"
+jsonschema = "0.29"
+async-nats = "0.45"
+arc-swap = "1"
+utoipa = { version = "5", features = ["axum_extras", "chrono"] }
+utoipa-swagger-ui = { version = "9", features = ["axum"] }
+base64 = "0.22"
+ort = { version = "2.0.0-rc.10", features = ["download-binaries"] }
+ndarray = "0.16"
