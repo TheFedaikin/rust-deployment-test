@@ -1,0 +1,47 @@
+name: "Strategy C: Swatinem/rust-cache + Thin Image"
+
+on:
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io/thefedaikin
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain (from rust-toolchain.toml)
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      - name: Build release binary
+        run: cargo build --release
+
+      - name: Copy binary to workspace root
+        run: cp target/release/axum-docker-deployment .
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/bake-action@v6
+        with:
+          source: .
+          targets: server-prebuilt
+          set: |
+            server-prebuilt.args.TAG=${{ github.sha }}
+        env:
+          TAG: ${{ github.sha }}
